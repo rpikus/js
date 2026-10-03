@@ -202,10 +202,59 @@ else {
 	? Syntax: conditional ? truthy code block : falsey code block
 */
 
-let f1Team = "Sauber"
+let f1Team = "Aston Martin"
 
 if (f1Team === "Petronas") {
 	console.log("Toto Wolff")
 }
 
 f1Team === "Petronas" ? console.log("Toto Wolff") : null
+
+// ? Ternary Chaining (not recommended)
+
+f1Team === "Petronas" ? console.log("Toto Wolff")
+	: f1Team === "Red Bull" ? console.log("Laurent Mekkies")
+	: f1Team == "Aston Martin" ? console.log("Adrian Newey")
+	: console.log("We don't have this team")
+
+/* 
+	? Switch Statements
+	* a way to execute multiple expression with or without stop
+*/
+
+let teamPrincipal = "Zac Brown"
+
+switch(teamPrincipal) {
+	// ? what you're comparing against
+	case "Fred Vasseur":
+		// ? condition to run
+		console.log("Ferrari principal")
+		break // ? stops other cases from evaluating
+	case "Zac Brown":
+		console.log("McLaren Team Principal")
+		break
+	case "Guenther Steiner":
+		console.log("Funniest team principal")
+		break
+	default:
+		// ? equivalent of an else
+		console.log("Not someone we know")
+	}
+
+let orderStatus = "pending";
+
+switch(orderStatus) {
+	case "pending":
+		console.log("Your order is being prepared.");
+		break;
+	case "shipped":
+		console.log("Your order is on the way.");
+		break;
+	case "cancelled":
+		console.log("Your order has been cancelled.");
+		break;
+	case "delivered":
+		console.log("Your order has been delivered.");
+	default:
+		console.log("Unknown order status.");
+}
