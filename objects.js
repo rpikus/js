@@ -57,16 +57,26 @@ for (i in bentley) {
 // 	console.log(i)
 // }
 
-console.log("--------------------")
+/* 
+	? Object Interface Methods
+	* .keys()
+	* .values()
+*/
+let keys = Object.keys(bentley)
+console.log(keys, keys.length)
+
+let values = Object.values(bentley)
+console.log(values)
+
 
 let POSTrequest = {
-	email: "rachel@gmail.com",
-	password: "superCool21"
+	email: "pn@codecademy.com",
+	password: "ilovepizza777"
 }
 
 let db = [
 	{ email: "jackson@gmail.com", password: "pass1234"},
-	{ email: "paul@gmail.com", password: "ilovepizza777"},
+	{ email: "paul@codecademy.com", password: "ilovepizza777"},
 	{ email: "hamza@gmail.com", password: "alialiali"},
 	{ email: "nader@gmail.com", password: "laskjflk9834834"},
 	{ email: "rachel@gmail.com", password: "superCool22"},
@@ -103,49 +113,98 @@ let db = [
 	* log that "this account already exists"
 */
 
+console.log(POSTrequest.password)
+db.forEach(i => console.log(i.email))
 
-// log the password from my request
-
-let userPassword = POSTrequest.password;
-let userEmail = POSTrequest.email;
-// console.log(userPassword); 
- 
-// how would you console log all emails in the database?
-
-/*
-for (const users of db) {
-    // console.log(users.password);
-    
-    if (userEmail === users.email) {
-        console.log("user exists!");
-
-    } else {
-        console.log("user not found");
-    }
-}
+/* 
+	? Guard Clauses
+	* think about the negative scenario
+	* use early returns (return or return false) to short
 */
 
+function validateEmail(email) {
+	if (typeof email !== "string" ||| email.trim() === "") {
+		console.log("Email required")
+		return
+	}
 
+	let normalizedEmail = email.trim().toLowerCase()
 
-// take an incoming request and parse it
-
-const existingUser = db.find(user => user.email === userEmail);
-
-if (existingUser) {
-    console.log("user exists");
-
-if (existingUser.password === userPassword) {
-    console.log("Logged in!");
-  } else {
-    console.log("Incorrect password.");
-  }
-
-    const existingPassword = db.find(user => user.email === userEmail);
-
-
-} else {
-  console.log("No user found");
+	return normalizedEmail
 }
 
+function validatePassword(password) {
+	if (typeof password !== "string" || password.trim() === "") {
+		console.log("Password required")
+		return
+	}
 
+	return password
+}
 
+function findUserByEmail(email) {
+	return db.find((usr) => usr.email.trim().toLowerCase() === email)
+}
+
+function login(req) {
+	let email = validateEmail(req.email)
+	let password = validatePassword(req.password)
+
+	if (!email && !password) {
+		return
+	}
+
+	let user = findUserByEmail(email)
+	console.log(user)
+
+	if (!user) {
+		console.log("User Not Found")
+		return
+	}
+
+	console.log("Logged in")
+}
+
+login(POSTrequest)
+
+function register(req) {
+	let email = validateEmail(req.email)
+	let password = validatePassword(req.password)
+	
+	if (!email && !password) {
+		return
+	}
+	
+	let user = findUserByEmail(email)
+	
+	if (user) {
+		console.log("User already exists")
+		return
+	}
+	
+	db.push({ email, password })
+	console.log("Account created")
+}
+
+register(POSTrequest)
+console.log(db)
+
+function authenticate(req, db) {
+	let foundUser = db.find(usr => usr.email === req.email)
+	console.log(foundUser)
+
+	if (!foundUser) {
+		console.log("User not found")
+		return
+	}
+
+	if (foundUser[0].password !== req.password) {
+		console.log("Incorrect password")
+		return
+	}
+
+	console.log("Logged in")
+
+}
+
+// authenticate(POSTrequest, db)
